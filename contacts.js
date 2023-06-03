@@ -1,4 +1,5 @@
-const { readFile } = require("fs").promises;
+const { readFile, writeFile } = require("fs").promises;
+const { nanoid } = require("nanoid");
 
 const path = require("path");
 
@@ -14,7 +15,7 @@ async function listContacts() {
     console.log(error);
   }
 }
-listContacts();
+// listContacts();
 
 // FIND CONTACT BY ID
 async function getContactById(contactId) {
@@ -29,7 +30,7 @@ async function getContactById(contactId) {
     console.log(error);
   }
 }
-getContactById("e6ywwRe4jcqxXfCZOj_1e");
+// getContactById("e6ywwRe4jcqxXfCZOj_1e");
 
 // --REMOVE CONTACT, NEW ARRAY
 async function removeContact(contactId) {
@@ -44,8 +45,30 @@ async function removeContact(contactId) {
     console.log(error);
   }
 }
-removeContact("rsKkOQUi80UsgVPCcLZZW");
+// removeContact("rsKkOQUi80UsgVPCcLZZW");
 
-function addContact(name, email, phone) {
-  // ...твій код
+// Add contacts - new array
+async function addContact(name, email, phone) {
+  try {
+    const objectContacts = {
+      id: nanoid(),
+      name: name,
+      email: email,
+      phone: phone,
+    };
+    const readContacts = await readFile(contactsPath);
+    const listContacts = JSON.parse(readContacts);
+    const newArray = [...listContacts, objectContacts];
+
+    await writeFile("newJson.json", JSON.stringify(newArray));
+  } catch (error) {
+    console.log(error);
+  }
 }
+// addContact("Lea Glorr", "lea123@gmail.com", "+380961234567");
+module.exports = {
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact,
+};
