@@ -9,13 +9,14 @@ const contactsPath = path.join("db", "contacts.json");
 async function listContacts() {
   try {
     const readContacts = await readFile(contactsPath);
-    const listContacts = JSON.parse(readContacts);
-    return listContacts;
+    const allContacts = JSON.parse(readContacts);
+    // console.table(allContacts);
+    return allContacts;
   } catch (error) {
     console.log(error);
   }
 }
-
+listContacts();
 // FIND CONTACT BY ID
 async function getContactById(contactId) {
   try {
@@ -23,7 +24,7 @@ async function getContactById(contactId) {
     const getContactById = contactsList.filter(
       (contact) => contact.id === contactId
     );
-    return getContactById;
+    console.log(getContactById);
   } catch (error) {
     console.log(error);
   }
@@ -36,7 +37,7 @@ async function removeContact(contactId) {
     const getNewArrayContacts = contactsList.filter(
       (contact) => contact.id !== contactId
     );
-    return getNewArrayContacts;
+    console.log(getNewArrayContacts);
   } catch (error) {
     console.log(error);
   }
@@ -54,7 +55,8 @@ async function addContact(name, email, phone) {
 
     const contactsList = await listContacts();
     const newArray = [...contactsList, objectContacts];
-    await writeFile(contactsPath, JSON.stringify(newArray));
+    await writeFile(contactsPath, JSON.stringify(newArray, null, 2));
+    console.log(objectContacts);
   } catch (error) {
     console.log(error);
   }

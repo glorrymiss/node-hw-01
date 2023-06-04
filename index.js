@@ -1,10 +1,11 @@
-// const { listContacts } = require("./contacts");
 const {
   listContacts,
   getContactById,
   removeContact,
   addContact,
 } = require("./contacts");
+
+console.log(listContacts());
 const { Command } = require("commander");
 
 const program = new Command();
@@ -24,10 +25,12 @@ function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
       listContacts();
+
       break;
 
     case "get":
       getContactById(id);
+
       break;
 
     case "add":
